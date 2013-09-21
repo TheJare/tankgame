@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Sample Tank Game</title>
+ <style>
+    body { margin: 0; background: #000; overflow: hidden;}
+ </style>
+ <script src="phaser.js"></script>
+ <script src="TankGame.js"></script>
+</head>
+<body>
+
+<script>
+(function () {
+    var game = new Phaser.Game(800, 600, Phaser.AUTO);
+    game.state.add('preloader', TankGame.Preloader, true);
+    game.state.add('mainmenu', TankGame.MainMenu);
+    game.state.add('creditsmenu', TankGame.CreditsMenu);
+    game.state.add('game', TankGame.Game);
+})();
+</script>
+
+</body>
+</html>
