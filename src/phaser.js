@@ -21779,6 +21779,14 @@ Phaser.Animation.Parser = {
 
         var width = img.width;
         var height = img.height;
+        if (frameWidth <= 0)
+        {
+            frameWidth = Math.floor(-width/Math.min(-1, frameWidth));
+        }
+        if (frameHeight <= 0)
+        {
+            frameHeight = Math.floor(-height/Math.min(-1, frameHeight));
+        }
         var row = Math.round(width / frameWidth);
         var column = Math.round(height / frameHeight);
         var total = row * column;
