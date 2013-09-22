@@ -17,7 +17,7 @@ TankGame.Preloader.prototype = {
 
         this.game.load.bitmapFont('regular', 'fonts/gunplay24_0.png', 'fonts/gunplay24.fnt');
 
-
+        this.game.load.image('target', 'images/Target.png');
         this.game.load.image('tankbody', 'images/GreenTankBody_2.png');
         this.game.load.image('tankturret', 'images/GreenTankTurret_2.png');
 

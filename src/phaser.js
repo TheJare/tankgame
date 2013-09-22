@@ -10290,7 +10290,7 @@ Phaser.Game = function (width, height, renderer, parent, state, transparent, ant
 
     /**
      * Reference to the math helper.
-     * @type {Phaser.GameMath}
+     * @type {Phaser.Math}
      */
     this.math = null;
 
@@ -16953,8 +16953,8 @@ Phaser.Math = {
 
         if (typeof radians === "undefined") { radians = true; }
 
-        var rd = (radians) ? GameMath.PI : 180;
-        return this.wrap(angle, rd, -rd);
+        var rd = (radians) ? Math.PI : 180;
+        return this.wrap(angle, -rd, rd);
         
     },
 
@@ -16966,7 +16966,7 @@ Phaser.Math = {
 
         if (typeof radians === "undefined") { radians = true; }
 
-        var rd = (radians) ? GameMath.PI : 180;
+        var rd = (radians) ? Math.PI : 180;
         a1 = this.normalizeAngle(a1, radians);
         a2 = this.normalizeAngle(a2, radians);
         
@@ -17094,6 +17094,30 @@ Phaser.Math = {
 
         return value;
 
+    },
+
+    /**
+    * Ensures that the value always stays between min and max, by wrapping the value around.
+    * <p>max should be larger than min, or the function will return 0</p>
+    *
+    * @param value The value to wrap
+    * @param min The minimum the value is allowed to be
+    * @param max The maximum the value is allowed to be
+    * @return The wrapped value
+    */
+    wrap: function (value, min, max) {
+
+        var range = max - min;
+        if (range <= 0)
+        {
+            return 0;
+        }
+        var result = (value - min) % range;
+        if (result < 0)
+        {
+            result += range;
+        }
+        return result + min;
     },
 
 	/**
