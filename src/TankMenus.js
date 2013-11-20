@@ -21,7 +21,8 @@ TankGame.Preloader.prototype = {
         this.game.load.image('tankbody', 'images/GreenTankBody_2.png');
         this.game.load.image('tankturret', 'images/GreenTankTurret_2.png');
 
-        this.game.load.tilemap('desert', 'maps/tmw_desert_spacing.png', 'maps/desert.json', null, Phaser.Tilemap.JSON);
+        this.game.load.tilemap('desert', 'maps/desert.json', null, Phaser.Tilemap.JSON);
+        this.game.load.tileset('desertgfx', 'maps/tmw_desert_spacing.png', 16, 16, -1, 0, 1);
 
         // this.game.load.atlas('breakout', 'assets/games/breakout/breakout.png', 'assets/games/breakout/breakout.json');
     },

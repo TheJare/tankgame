@@ -25,8 +25,8 @@ TankGame.TankObject.prototype = {
 
         // Compute relative distances to target
         if (this.targetMove) {
-            var targetDist = this.game.physics.distanceToPoint(this.sprite, this.targetMove);
-            var targetAngle = this.game.physics.angleBetweenPoint(this.sprite, this.targetMove);
+            var targetDist = this.game.physics.distanceBetween(this.sprite, this.targetMove);
+            var targetAngle = this.game.physics.angleBetween(this.sprite, this.targetMove);
             var angleDiff = this.game.math.normalizeAngle(targetAngle - this.sprite.rotation);
 
             if (targetDist < 5) {
@@ -94,7 +94,9 @@ TankGame.Game.prototype = {
         this.layerGUI = this.game.add.group();
 
         // Create the ground map that we loaded.
-        this.layerGround.add(new Phaser.Tilemap(this.game, "desert", 0, 0));
+        var map = this.game.add.tilemap("desert");
+        var tileset = this.game.add.tileset("desertgfx");
+        this.layerGround.add(new Phaser.TilemapLayer(this.game, 0, 0, map.layers[0].width*tileset.tileWidth, 600, tileset, map, 0));
 
         // Create the appropriate gameobjects
         this.player = new TankGame.TankObject(this.game, 300, 300, 45);
