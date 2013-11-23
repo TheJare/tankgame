@@ -20495,7 +20495,7 @@ Phaser.Math = {
         if (typeof radians === "undefined") { radians = true; }
 
         var rd = (radians) ? Math.PI : 180;
-        return this.wrap(angle, rd, -rd);
+        return this.wrap(angle, -rd, rd);
         
     },
 

@@ -17,12 +17,14 @@ TankGame.Preloader.prototype = {
 
         this.game.load.bitmapFont('regular', 'fonts/gunplay24_0.png', 'fonts/gunplay24.fnt');
 
+        this.game.load.image('empty', 'images/empty.png');
+
         this.game.load.image('target', 'images/Target.png');
         this.game.load.image('tankbody', 'images/GreenTankBody_2.png');
         this.game.load.image('tankturret', 'images/GreenTankTurret_2.png');
 
-        this.game.load.tilemap('desert', 'maps/desert.json', null, Phaser.Tilemap.JSON);
-        this.game.load.tileset('desertgfx', 'maps/tmw_desert_spacing.png', 16, 16, -1, 0, 1);
+        this.game.load.tilemap('desert', 'maps/desert.json', null, Phaser.Tilemap.TILED_JSON);
+        this.game.load.tileset('desertgfx', 'maps/tmw_desert_spacing.png', 32, 32, -1, 1, 1);
 
         // this.game.load.atlas('breakout', 'assets/games/breakout/breakout.png', 'assets/games/breakout/breakout.json');
     },
@@ -44,6 +46,9 @@ TankGame.MainMenu = function (game) {
 TankGame.MainMenu.prototype = {
     create: function () {
         console.log("mainmenu created")
+
+        this.game.world.boot();
+
         var bg = this.game.add.sprite(0, 0, 'menubkg');
         //bg.scale.setTo(2.5, 2.5);
 

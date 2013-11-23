@@ -29,14 +29,14 @@ TankGame.TankObject.prototype = {
             var targetAngle = this.game.physics.angleBetween(this.sprite, this.targetMove);
             var angleDiff = this.game.math.normalizeAngle(targetAngle - this.sprite.rotation);
 
-            if (targetDist < 5) {
+            if (targetDist < 20) {
                 this.targetMove = null;
             }
         }
 
         if (!this.targetMove) {
             // Decelerate
-            this.linearVelocity = Math.max(this.linearVelocity - 5, 0);
+            this.linearVelocity = Math.max(this.linearVelocity - 3, 0);
             this.sprite.body.angularAcceleration = 0;
             this.sprite.body.angularVelocity = 0;
         } else {
@@ -45,7 +45,9 @@ TankGame.TankObject.prototype = {
             if (Math.abs(angleDiff) > Math.PI/2) {
                 this.linearVelocity = Math.max(this.linearVelocity - 3, -20);
             } else {
-                this.linearVelocity = Math.min(this.linearVelocity + 3, 80)
+                // Lower our top speed if we're not looking straight at target
+                var maxVel = 80*Math.cos(angleDiff);
+                this.linearVelocity = Math.min(this.linearVelocity + 3, maxVel);
             }
 
             // Rotate towards target
@@ -85,18 +87,25 @@ TankGame.Game = function (game) {
 
 TankGame.Game.prototype = {
     create: function () {
+
         console.log("game created")
+
+        this.game.world.boot();
 
         // Create the layers where objects will reside, the layers will be rendered in order
         this.layerGround = this.game.add.group();
         this.layerObjects = this.game.add.group();
         this.layerAir = this.game.add.group();
         this.layerGUI = this.game.add.group();
+        this.rootGUI = this.layerGUI.add(new Phaser.Sprite(this.game, 0, 0, "empty"));
+        this.rootGUI.fixedToCamera = true;
 
-        // Create the ground map that we loaded.
+        // Create the ground map that we loaded and resize the world to be that size
         var map = this.game.add.tilemap("desert");
         var tileset = this.game.add.tileset("desertgfx");
-        this.layerGround.add(new Phaser.TilemapLayer(this.game, 0, 0, map.layers[0].width*tileset.tileWidth, 600, tileset, map, 0));
+        var mapLayer = new Phaser.TilemapLayer(this.game, 0, 0, this.game.width, this.game.height, tileset, map, 0);
+        mapLayer.resizeWorld();
+        this.layerGround.add(mapLayer);
 
         // Create the appropriate gameobjects
         this.player = new TankGame.TankObject(this.game, 300, 300, 45);
@@ -105,13 +114,14 @@ TankGame.Game.prototype = {
         // Create GUI
         var button = new Phaser.Button(this.game, this.game.width/2, 100, 'quitbtn', this.quitGame, this, 1, 0, 2);
         button.anchor.setTo(0.5, 0.5);
-        this.layerGUI.add(button);
+        this.rootGUI.addChild(button);
 
         this.target = this.layerGround.add(new Phaser.Sprite(this.game, 500, 500, "target"));
         this.target.anchor.setTo(0.5, 0.5);
         this.player.targetMove = this.target.position.clone();
 
         this.game.input.onUp.add(this.onClick, this);
+        this.game.camera.follow(this.player.sprite);
     },
 
     update: function () {
