@@ -42,12 +42,17 @@ TankGame.TankObject.prototype = {
         } else {
 
             // Move in reverse if target is behind, otherwise forward
+            var desiredLinearVelocity;
             if (Math.abs(angleDiff) > Math.PI/2) {
-                this.linearVelocity = Math.max(this.linearVelocity - 3, -20);
+                desiredLinearVelocity = -20; // Reverse
             } else {
-                // Lower our top speed if we're not looking straight at target
-                var maxVel = 80*Math.cos(angleDiff);
-                this.linearVelocity = Math.min(this.linearVelocity + 3, maxVel);
+                // Use cos() to lower our top speed if we're not looking straight at target
+                desiredLinearVelocity = 80*Math.cos(angleDiff);
+            }
+            if (desiredLinearVelocity < this.linearVelocity) {
+                this.linearVelocity = Math.max(this.linearVelocity - 3, desiredLinearVelocity);
+            } else {
+                this.linearVelocity = Math.min(this.linearVelocity + 1, desiredLinearVelocity);
             }
 
             // Rotate towards target
@@ -109,7 +114,7 @@ TankGame.Game.prototype = {
 
         // Create the appropriate gameobjects
         this.player = new TankGame.TankObject(this.game, 300, 300, 45);
-        this.layerGround.add(this.player.sprite);
+        this.layerObjects.add(this.player.sprite);
 
         // Create GUI
         var button = new Phaser.Button(this.game, this.game.width/2, 100, 'quitbtn', this.quitGame, this, 1, 0, 2);

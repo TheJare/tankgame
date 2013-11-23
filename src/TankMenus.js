@@ -20,8 +20,8 @@ TankGame.Preloader.prototype = {
         this.game.load.image('empty', 'images/empty.png');
 
         this.game.load.image('target', 'images/Target.png');
-        this.game.load.image('tankbody', 'images/GreenTankBody_2.png');
-        this.game.load.image('tankturret', 'images/GreenTankTurret_2.png');
+        this.game.load.image('tankbody', 'images/GreenTankBody.png');
+        this.game.load.image('tankturret', 'images/GreenTankTurret.png');
 
         this.game.load.tilemap('desert', 'maps/desert.json', null, Phaser.Tilemap.TILED_JSON);
         this.game.load.tileset('desertgfx', 'maps/tmw_desert_spacing.png', 32, 32, -1, 1, 1);
