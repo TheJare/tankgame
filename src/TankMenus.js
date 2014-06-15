@@ -47,6 +47,8 @@ TankGame.MainMenu.prototype = {
     create: function () {
         console.log("mainmenu created")
 
+        // Reset boundaries and camera
+        this.game.world.bounds.setTo(0, 0, this.game.width, this.game.height);
         this.game.world.boot();
 
         var bg = this.game.add.sprite(0, 0, 'menubkg');
@@ -83,14 +85,15 @@ TankGame.CreditsMenu.prototype = {
     create: function () {
         console.log("creditsmenu created")
         this.game.add.bitmapText(this.game.width/2, 100, 'Credits', { font: '96 Gunplay', align: 'center' }).anchor.setTo(0.5, 0.5);
-        this.creditsText = this.game.add.bitmapText(this.game.width/2, 300, 'Tank Game\nby\nJavier Arevalo\nyeah', { font: 'Gunplay', align: 'center' });
+        //this.creditsText = this.game.add.bitmapText(this.game.world.centerX, this.game.world.centerY, 'Tank Game\nby\nJavier Arevalo\nyeah', { font: 'Gunplay', align: 'center' });
+        this.creditsText = this.game.add.text(this.game.world.centerX, this.game.world.centerY, 'Tank Game\nby\nJavier Arevalo\nyeah', { font: '30px Arial', fill: "#FFFFFF", align: 'center' });
         this.creditsText.anchor.setTo(0.5, 0.5);
 
         this.game.input.onUp.add(this.quitCredits, this);
     },
 
     update: function() {
-        this.creditsText.angle += 1;
+        this.creditsText.rotation += 0.03;
     },
 
     quitCredits: function () {
